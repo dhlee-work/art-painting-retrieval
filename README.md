@@ -1,6 +1,14 @@
-# Art-Painting Retrieval   
+# Art-Painting Retrieval
 
-![Pipeline](./fig/pipeline). 
+----
 
-#Quick Start. 
+![Pipeline](fig/pipeline.jpg)
+
+
+##Requirements
+
+---
+##Quick Start
+
+---
 

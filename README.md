@@ -1,5 +1,6 @@
-# Art-Painting Retrieval 
+# Art-Painting Retrieval   
 
-![Pipeline](./)
-Quick Start
+![Pipeline](./fig/pipeline). 
+
+#Quick Start. 
 

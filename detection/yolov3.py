@@ -13,10 +13,10 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 
-from pytorchyolo.models import load_model
-from pytorchyolo.utils.utils import load_classes, rescale_boxes, non_max_suppression, print_environment_info
-from pytorchyolo.utils.datasets import ImageFolder
-from pytorchyolo.utils.transforms import Resize, DEFAULT_TRANSFORMS
+from .pytorchyolo.models import load_model
+from .pytorchyolo.utils.utils import load_classes, rescale_boxes, non_max_suppression, print_environment_info
+from .pytorchyolo.utils.datasets import ImageFolder
+from .pytorchyolo.utils.transforms import Resize, DEFAULT_TRANSFORMS
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -249,9 +249,9 @@ def _create_data_loader(img_path, batch_size, img_size, n_cpu):
     return dataloader
 
 
-def predict(images_loc='./input',
-            output_loc='./output',
-            weights_loc='./model/yolov3-openimages.weights',
+def predict(images_loc='./detect_input',
+            output_loc='./detect_output',
+            weights_loc='./weights/yolov3-openimages.weights',
             model='./detection/config/yolov3-openimages.cfg',
             classes='./detection/config/openimages.names',
             batch_size=1,

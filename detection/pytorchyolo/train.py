@@ -10,15 +10,15 @@ import torch
 from torch.utils.data import DataLoader
 import torch.optim as optim
 
-from pytorchyolo.models import load_model
-from pytorchyolo.utils.logger import Logger
-from pytorchyolo.utils.utils import to_cpu, load_classes, print_environment_info, provide_determinism, worker_seed_set
-from pytorchyolo.utils.datasets import ListDataset
-from pytorchyolo.utils.augmentations import AUGMENTATION_TRANSFORMS
+from .detection.pytorchyolo.models import load_model
+from .detection.pytorchyolo.utils.logger import Logger
+from .detection.pytorchyolo.utils.utils import to_cpu, load_classes, print_environment_info, provide_determinism, worker_seed_set
+from .detection.pytorchyolo.utils.datasets import ListDataset
+from .detection.pytorchyolo.utils.augmentations import AUGMENTATION_TRANSFORMS
 #from pytorchyolo.utils.transforms import DEFAULT_TRANSFORMS
-from pytorchyolo.utils.parse_config import parse_data_config
-from pytorchyolo.utils.loss import compute_loss
-from pytorchyolo.test import _evaluate, _create_validation_data_loader
+from .detection.pytorchyolo.utils.parse_config import parse_data_config
+from .detection.pytorchyolo.utils.loss import compute_loss
+from .detection.pytorchyolo.test import _evaluate, _create_validation_data_loader
 
 from terminaltables import AsciiTable
 

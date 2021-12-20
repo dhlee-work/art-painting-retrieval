@@ -59,9 +59,9 @@ def detect_directory(model_path, weights_path, img_path, classes, output_path,
         img_size,
         conf_thres,
         nms_thres)
-    _draw_and_save_output_images(
+    output = _draw_and_save_output_images(
         img_detections, imgs, img_size, output_path, classes)
-
+    return output
 
 def detect_image(model, image, img_size=416, conf_thres=0.5, nms_thres=0.5):
     """Inferences one image with model.
@@ -157,13 +157,14 @@ def _draw_and_save_output_images(img_detections, imgs, img_size, output_path, cl
     :param classes: List of class names
     :type classes: [str]
     """
-
+    detected_dict = {}
     # Iterate through images and save plot of detections
     for (image_path, detections) in zip(imgs, img_detections):
         print(f"Image {image_path}:")
-        _draw_and_save_output_image(
+        detected_dict['image_path'] = _draw_and_save_output_image(
             image_path, detections, img_size, output_path, classes)
 
+    return detected_dict
 
 def _draw_and_save_output_image(image_path, detections, img_size, output_path, classes):
     """Draws detections in output image and stores this.
@@ -179,6 +180,9 @@ def _draw_and_save_output_image(image_path, detections, img_size, output_path, c
     :param classes: List of class names
     :type classes: [str]
     """
+    # Create images detect
+    _detected_dict = {}
+    d_idx =0
     # Create plot
     img = np.array(Image.open(image_path))
     plt.figure()
@@ -193,25 +197,30 @@ def _draw_and_save_output_image(image_path, detections, img_size, output_path, c
     colors = [cmap(i) for i in np.linspace(0, 1, n_cls_preds)]
     bbox_colors = random.sample(colors, n_cls_preds)
     for x1, y1, x2, y2, conf, cls_pred in detections:
+        if classes[int(cls_pred)] == 'Picture frame':
+            print(f"\t+ Label: {classes[int(cls_pred)]} | Confidence: {conf.item():0.4f}")
 
-        print(f"\t+ Label: {classes[int(cls_pred)]} | Confidence: {conf.item():0.4f}")
+            box_w = x2 - x1
+            box_h = y2 - y1
 
-        box_w = x2 - x1
-        box_h = y2 - y1
+            color = bbox_colors[int(np.where(unique_labels == int(cls_pred))[0])]
+            # Create a Rectangle patch
+            bbox = patches.Rectangle((x1, y1), box_w, box_h, linewidth=2, edgecolor=color, facecolor="none")
+            # Add the bbox to the plot
+            ax.add_patch(bbox)
+            # Add label
+            plt.text(
+                x1,
+                y1,
+                s=classes[int(cls_pred)],
+                color="white",
+                verticalalignment="top",
+                bbox={"color": color, "pad": 0})
 
-        color = bbox_colors[int(np.where(unique_labels == int(cls_pred))[0])]
-        # Create a Rectangle patch
-        bbox = patches.Rectangle((x1, y1), box_w, box_h, linewidth=2, edgecolor=color, facecolor="none")
-        # Add the bbox to the plot
-        ax.add_patch(bbox)
-        # Add label
-        plt.text(
-            x1,
-            y1,
-            s=classes[int(cls_pred)],
-            color="white",
-            verticalalignment="top",
-            bbox={"color": color, "pad": 0})
+            _detected_dict[d_idx] = {}
+            _detected_dict[d_idx]['bbox'] = [x1, y1, x2, y2]
+            _detected_dict[d_idx]['img'] = img[int(y1):int(y2), int(x1):int(x2), :]
+            d_idx += 1
 
     # Save generated image with detections
     plt.axis("off")
@@ -221,7 +230,7 @@ def _draw_and_save_output_image(image_path, detections, img_size, output_path, c
     output_path = os.path.join(output_path, f"{filename}.png")
     plt.savefig(output_path, bbox_inches="tight", pad_inches=0.0)
     plt.close()
-
+    return _detected_dict
 
 def _create_data_loader(img_path, batch_size, img_size, n_cpu):
     """Creates a DataLoader for inferencing.
@@ -264,7 +273,7 @@ def predict(images_loc='./detect_input',
     # Extract class names from file
     classes = load_classes(classes)  # List of class names
 
-    detect_directory(
+    result = detect_directory(
         model,
         weights_loc,
         images_loc,
@@ -276,4 +285,5 @@ def predict(images_loc='./detect_input',
         conf_thres=conf_thres,
         nms_thres=nms_thres)
 
+    return result
 

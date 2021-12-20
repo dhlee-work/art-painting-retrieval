@@ -161,7 +161,7 @@ def _draw_and_save_output_images(img_detections, imgs, img_size, output_path, cl
     # Iterate through images and save plot of detections
     for (image_path, detections) in zip(imgs, img_detections):
         print(f"Image {image_path}:")
-        detected_dict['image_path'] = _draw_and_save_output_image(
+        detected_dict[image_path] = _draw_and_save_output_image(
             image_path, detections, img_size, output_path, classes)
 
     return detected_dict
@@ -258,8 +258,8 @@ def _create_data_loader(img_path, batch_size, img_size, n_cpu):
     return dataloader
 
 
-def predict(images_loc='./detect_input',
-            output_loc='./detect_output',
+def predict(images_loc='./data/detect_input',
+            output_loc='./data/detect_output',
             weights_loc='./weights/yolov3-openimages.weights',
             model='./detection/config/yolov3-openimages.cfg',
             classes='./detection/config/openimages.names',

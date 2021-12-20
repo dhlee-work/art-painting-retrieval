@@ -18,5 +18,7 @@ wget https://pjreddie.com/media/files/yolov3-openimages.weights
 ```
 
 ### Retrieval Model
+We trained several art-painting retrieval models. if you want to get our weights of models, 
+please email dhlee.ie@yonsei.ac.kr
 
 ## Quick Start

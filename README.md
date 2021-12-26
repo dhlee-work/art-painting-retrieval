@@ -22,3 +22,5 @@ We trained several art-painting retrieval models. if you want to get our weights
 please email dhlee.ie@yonsei.ac.kr
 
 ## Quick Start
+
+ln -s /home/dhlee/DATA/wikiart wikiart

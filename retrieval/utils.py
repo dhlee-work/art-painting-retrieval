@@ -1,4 +1,6 @@
 import os
+from itertools import chain
+
 import numpy as np
 import time
 from PIL import Image
@@ -50,3 +52,18 @@ class ArtPaintingDataset(Dataset):
             image = self.transform(image)
         return image, label_dict, image_path
 
+def load_db(db_path='./data/DB/autoencoder'):
+    data_db_train = np.load(os.path.join(db_path, 'result_train_inference_epoch50.npy'),
+                            allow_pickle=True).item()
+    data_db_test = np.load(os.path.join(db_path, 'result_test_inference_epoch50.npy'),
+                           allow_pickle=True).item()
+    data_db = {}
+    for idx, key in enumerate(chain(data_db_train, data_db_test)):
+        data_db[idx] = data_db_train[key]
+    len(data_db)
+    db_feature = np.zeros((len(data_db),
+                           len(np.array(data_db_train[0]['feature']).reshape(-1).tolist()) + 1))
+    print(f'd_db shape : {db_feature.shape}')
+    for idx, key in enumerate(data_db):
+        db_feature[idx, :] = np.array([key] + np.array(data_db[key]['feature']).reshape(-1).tolist())
+    return data_db, db_feature

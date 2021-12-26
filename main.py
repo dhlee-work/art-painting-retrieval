@@ -25,4 +25,5 @@ _feature = retrieval_model.predict(detected_img)
 data_db, db_feature = load_db(db_path='./data/DB/autoencoder')
 data_q_sim = cosine_similarity(_feature, db_feature[:, 1:])
 
+## visualization
 vis_retrieval(detected_img, data_db, data_q_sim)

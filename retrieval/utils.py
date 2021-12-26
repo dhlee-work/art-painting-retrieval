@@ -7,6 +7,7 @@ from PIL import Image
 import torch
 from torch.utils.data import Dataset
 from torchvision.io import read_image
+import matplotlib.pyplot as plt
 
 def data_path_loader(base_path, data_path, column_exist=True):
     output = []
@@ -67,3 +68,51 @@ def load_db(db_path='./data/DB/autoencoder'):
     for idx, key in enumerate(data_db):
         db_feature[idx, :] = np.array([key] + np.array(data_db[key]['feature']).reshape(-1).tolist())
     return data_db, db_feature
+
+
+def vis_retrieval(detected_img, data_db, data_q_sim):
+    plt.figure(figsize=(30, 15))
+    dummy_i = 1
+    i = 0
+    intr_sim = data_q_sim[i, :]
+    sort_val = np.argsort(1 - intr_sim)
+    for _iter in range(11):
+        rank = _iter
+        if _iter == 0:
+            plt.subplot(2, 6, rank + dummy_i)
+            img = detected_img
+
+            plt.imshow(img)
+            plt.xlabel(f'query',  # \n size:{_size}
+                       fontsize=15)
+            plt.xticks([], [])
+            plt.yticks([], [])
+
+        if _iter == 6:
+            dummy_i = + dummy_i + 1
+
+        if _iter != 0:
+            _sim = round(intr_sim[sort_val[rank - 1]], 3)
+            _name = os.path.splitext(data_db[sort_val[rank - 1]]['name'])[0]
+            _path = data_db[sort_val[rank - 1]]['path']
+
+            plt.subplot(2, 6, rank + dummy_i)
+            img = plt.imread(_path)
+            _size = img.shape[:2]
+            _size = ','.join([str(i) for i in _size])
+            _name2 = _name[:len(_name) // 2] + '\n ' + _name[len(_name) // 2:]
+            plt.imshow(img)
+            plt.xlabel(f'{_name2}\n similarity:{_sim}',
+                       fontsize=15)
+            plt.xticks([], [])
+            plt.yticks([], [])
+
+        if _iter == 0:
+            plt.title('Query')
+        else:
+            plt.title(f'Top {rank}')
+    plt.show()
+    plt.savefig(f'./result.jpg')
+    plt.close()
+
+

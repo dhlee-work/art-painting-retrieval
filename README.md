@@ -48,4 +48,4 @@ vis_retrieval(detected_img, data_db, data_q_sim)
 
 ```
 ## result
-![Pipeline](fig/pipeline.jpg)
+![Pipeline](fig/result.jpg)

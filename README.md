@@ -47,5 +47,5 @@ data_q_sim = cosine_similarity(_feature, db_feature[:, 1:])
 vis_retrieval(detected_img, data_db, data_q_sim)
 
 ```
-## result
+## Result
 ![Pipeline](fig/result.jpg)

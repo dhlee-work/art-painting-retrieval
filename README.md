@@ -1,4 +1,4 @@
-# Art-Painting Retrieval
+# Art Painting Retrieval
 
 
 

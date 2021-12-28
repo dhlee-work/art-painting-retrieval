@@ -4,11 +4,11 @@
 
 ![Pipeline](fig/pipeline.jpg)
 
-## Requirements
-### Packages
+## Preliminary
+### Packages requirment
 Pillow == 8.4.8, numpy==1.21.4, torch==1.10.1, torchvision==0.11.2, torchaudio==0.10.1, imaug==0.4.0
 
-### Preliminary
+### Make link of wikiart database 
 Make symbolic link of wikiart dataset on the package data directory
 ```shell
 ln -s /home/dhlee/DATA/wikiart wikiart

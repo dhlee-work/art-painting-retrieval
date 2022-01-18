@@ -1,5 +1,6 @@
 from detection.yolov3 import predict
 from retrieval.AE import autoencoder
+from retrieval.AECLS import aecls
 from retrieval.utils import load_db, vis_retrieval
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -9,7 +10,8 @@ detected_dict['./data/detect_input/110.jpg'].keys()
 detected_img = detected_dict['./data/detect_input/110.jpg'][0]['img']
 
 ## Detected Image Encoding
-retrieval_model = autoencoder('./weights/ae_model_50.pth')
+#retrieval_model = autoencoder('./weights/ae_model_50.pth')
+retrieval_model = aecls('./weights/aecls_model_50.pth')
 _feature = retrieval_model.predict(detected_img)
 
 ## Database Retrieval
